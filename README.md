@@ -13,6 +13,6 @@ It displays a random image or tries to find an image based on a query.
 1. Edit `package.json` and add `hubot-bukkit` to the `dependencies` section. It should look something like this:
 
         "dependencies": {
-          "hubot-bukkit": ">= 0.1.0",
+          "hubot-bukkit": ">= 0.2.0",
           ...
         }

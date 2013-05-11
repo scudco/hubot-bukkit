@@ -1,6 +1,6 @@
 {
   "name": "hubot-bukkit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Adam Anderson <adamandersonis@gmail.com>",
   "description": "A Hubot script for fetching images from http://bukk.it",
   "keywords": [
