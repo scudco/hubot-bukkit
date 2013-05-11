@@ -8,7 +8,7 @@
 # Configuration:
 #
 # Commands:
-#   hubot bukkit me <query> - displays an image whose filename matches `query` (or a random one if `query` is not present) from http://bukk.it
+#   hubot bukkit <query> - displays an image whose filename matches `query` (or a random one if `query` is not present) from http://bukk.it
 #
 # Notes:
 #
@@ -22,7 +22,7 @@ HtmlParser = require "htmlparser"
 class Bukkit
   url: "http://bukk.it/"
   selector: "td a"
-  regex: /bukkit( me)? (.*)$/i
+  regex: /(bukkit) (.+)$/i
 
   handleGet: (err, res, body) =>
     handler = new HtmlParser.DefaultHandler()
@@ -40,7 +40,8 @@ class Bukkit
     @query = @msg.match[2]
 
     if @query?
-      @msg.send "#{@url}#{@query}"
+      image = "#{@url}#{@query}"
+      @msg.send image
     else
       @msg.http(@url).get() @handleGet
 
