@@ -1,0 +1,26 @@
+{
+  "name": "hubot-bukkit",
+  "version": "0.1.0",
+  "author": "Adam Anderson <adamandersonis@gmail.com>",
+  "description": "A Hubot script for fetching images from http://bukk.it",
+  "keywords": [
+    "hubot",
+    "bukkit"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/scudco/hubot-bukkit/raw/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/scudco/hubot-bukkit.git"
+  },
+  "dependencies": {
+    "htmlparser": "1.7.6",
+    "soupselect": "0.2.0"
+  },
+  "license": "MIT",
+  "main": "./src/bukkit"
+}
