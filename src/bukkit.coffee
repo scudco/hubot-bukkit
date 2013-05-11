@@ -8,7 +8,7 @@
 # Configuration:
 #
 # Commands:
-#   hubot bukkit me <query> - displays an image with basename matching query (or a random one if query is not present) from http://bukk.it
+#   hubot bukkit me <query> - displays an image whose filename matches `query` (or a random one if `query` is not present) from http://bukk.it
 #
 # Notes:
 #
