@@ -16,3 +16,6 @@ It displays a random image or tries to find an image based on a query.
           "hubot-bukkit": ">= 0.2.1",
           ...
         }
+1. Add "hubot-bukkit" to your `external-scripts.json`. It should look something like this:
+
+    ["hubot-bukkit"]
