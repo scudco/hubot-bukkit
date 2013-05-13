@@ -18,13 +18,15 @@
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
+JQuery     = require('jquery')
 
 class Bukkit
   url: "http://bukk.it/"
   selector: "td a"
   randomRegex: /bukkit$/i
-  queryRegex: /bukkit (.*)$/i
+  queryRegex: /bukkit\s.*?([a-zA-Z0-9_\-\.]*)$/i
   links: []
+  link: []
 
   constructor: (robot)->
     @robot = robot
@@ -34,21 +36,33 @@ class Bukkit
     parser  = new HtmlParser.Parser handler
 
     parser.parseComplete body
-
     @links = ("#{link.attribs.href}" for link in Select handler.dom, @selector)
-    @display(@msg.random(@links))
+    @display(@chooseLink(@links))
 
   display: (image)->
     @msg.send "#{@url}#{image}"
 
   randomResponseHandler: (msg) =>
     @msg = msg
+    @query = null
     @robot.http(@url).get() @handleGet
 
   queryResponseHandler: (msg) =>
     @msg = msg
     @query = @msg.match[1]
-    @display(@query)
+    @robot.http(@url).get() @handleGet
+
+  chooseLink: (links) =>
+    # No link specified
+    return @msg.random(@links) unless @query
+
+    for link in links
+      @link.push(link) if link.match(@query)
+
+    # Link(s) found, return a random match
+    return @msg.random(@link) if (@link.length > 0)
+    # No matching links; return random
+    return @msg.random(@links)
 
 module.exports = (robot) ->
   bukkit = new Bukkit(robot)
