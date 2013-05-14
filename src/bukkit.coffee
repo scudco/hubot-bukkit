@@ -18,7 +18,6 @@
 
 Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
-JQuery     = require('jquery')
 
 class Bukkit
   url: "http://bukk.it/"
