@@ -22,9 +22,7 @@ HtmlParser = require "htmlparser"
 class Bukkit
   url: "http://bukk.it/"
   selector: "td a"
-  randomRegex: /bukkit$/i
-  queryRegex: /bukkit (.*)$/i
-  links: []
+  regex: /bukkit me.*?([a-zA-Z0-9_\-\.]*)$/i
 
   constructor: (robot)->
     @robot = robot
@@ -34,23 +32,24 @@ class Bukkit
     parser  = new HtmlParser.Parser handler
 
     parser.parseComplete body
+    links = ("#{link.attribs.href}" for link in Select handler.dom, @selector)
 
-    @links = ("#{link.attribs.href}" for link in Select handler.dom, @selector)
-    @display(@msg.random(@links))
+    matchedLinks = []
+    for link in links
+      matchedLinks.push(link) if link.match(@query)
+
+    links = matchedLinks if matchedLinks.length > 0
+    link  = @msg.random(links)
+    @display(link)
 
   display: (image)->
     @msg.send "#{@url}#{image}"
 
-  randomResponseHandler: (msg) =>
-    @msg = msg
-    @robot.http(@url).get() @handleGet
-
-  queryResponseHandler: (msg) =>
+  responseHandler: (msg) =>
     @msg = msg
     @query = @msg.match[1]
-    @display(@query)
+    @robot.http(@url).get() @handleGet
 
 module.exports = (robot) ->
   bukkit = new Bukkit(robot)
-  robot.respond bukkit.randomRegex, bukkit.randomResponseHandler
-  robot.respond bukkit.queryRegex, bukkit.queryResponseHandler
+  robot.respond bukkit.regex, bukkit.responseHandler
