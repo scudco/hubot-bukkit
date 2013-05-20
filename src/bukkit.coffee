@@ -22,10 +22,7 @@ HtmlParser = require "htmlparser"
 class Bukkit
   url: "http://bukk.it/"
   selector: "td a"
-  randomRegex: /bukkit$/i
-  queryRegex: /bukkit\s.*?([a-zA-Z0-9_\-\.]*)$/i
-  links: []
-  link: []
+  regex: /bukkit me.*?([a-zA-Z0-9_\-\.]*)$/i
 
   constructor: (robot)->
     @robot = robot
@@ -35,35 +32,24 @@ class Bukkit
     parser  = new HtmlParser.Parser handler
 
     parser.parseComplete body
-    @links = ("#{link.attribs.href}" for link in Select handler.dom, @selector)
-    @display(@chooseLink(@links))
+    links = ("#{link.attribs.href}" for link in Select handler.dom, @selector)
+
+    matchedLinks = []
+    for link in links
+      matchedLinks.push(link) if link.match(@query)
+
+    links = matchedLinks if matchedLinks.length > 0
+    link  = @msg.random(links)
+    @display(link)
 
   display: (image)->
     @msg.send "#{@url}#{image}"
 
-  randomResponseHandler: (msg) =>
-    @msg = msg
-    @query = null
-    @robot.http(@url).get() @handleGet
-
-  queryResponseHandler: (msg) =>
+  responseHandler: (msg) =>
     @msg = msg
     @query = @msg.match[1]
     @robot.http(@url).get() @handleGet
 
-  chooseLink: (links) =>
-    # No link specified
-    return @msg.random(@links) unless @query
-
-    for link in links
-      @link.push(link) if link.match(@query)
-
-    # Link(s) found, return a random match
-    return @msg.random(@link) if (@link.length > 0)
-    # No matching links; return random
-    return @msg.random(@links)
-
 module.exports = (robot) ->
   bukkit = new Bukkit(robot)
-  robot.respond bukkit.randomRegex, bukkit.randomResponseHandler
-  robot.respond bukkit.queryRegex, bukkit.queryResponseHandler
+  robot.respond bukkit.regex, bukkit.responseHandler
