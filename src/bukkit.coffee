@@ -8,12 +8,15 @@
 # Configuration:
 #
 # Commands:
-#   hubot bukkit <query> - displays an image whose filename matches `query` (or a random one if `query` is not present) from http://bukk.it
+#   hubot bukkit me - displays a random image from http://bukk.it
+#   hubot bukkit me <query> - displays a random image whose base filename matches `query` from http://bukk.it
 #
 # Notes:
 #
-# Author:
+# Authors:
 #   Adam Anderson (scudco)
+#   Justin Anderson (tinifni)
+#
 #   based on https://github.com/sauliusg/hubot/blob/master/scripts/bukkit.coffee
 
 Select     = require("soupselect").select
