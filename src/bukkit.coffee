@@ -23,7 +23,7 @@ Select     = require("soupselect").select
 HtmlParser = require "htmlparser"
 
 class Bukkit
-  url: "http://bukk.it/"
+  url: "https://bukk.it/"
   selector: "td a"
   regex: /bukkit me.*?([a-zA-Z0-9_\-\.]*)$/i
 
